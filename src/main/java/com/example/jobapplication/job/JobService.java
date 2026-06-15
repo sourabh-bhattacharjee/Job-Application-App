@@ -1,4 +1,16 @@
 package com.example.jobapplication.job;
 
-public class JobService {
+import org.bson.types.ObjectId;
+
+import java.util.List;
+
+public interface JobService {
+    List<Job> findAll();
+    void createJob(Job job);
+
+    Job getJobById(String id);
+
+    boolean deleteJob(String id);
+
+    boolean updateJob(String id, Job updatedJob);
 }
