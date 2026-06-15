@@ -24,8 +24,8 @@ public class JobController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createJob(@RequestBody Job job){
-        jobService.createJob(job);
+    public ResponseEntity<String> createJob(@RequestBody JobWithCompanyName jobWithCompanyName){
+        jobService.createJob(jobWithCompanyName);
         return new ResponseEntity<>("Jobs Created Successfully", HttpStatus.CREATED);
     }
 

@@ -1,8 +1,11 @@
 package com.example.jobapplication.job.impl;
 
+import com.example.jobapplication.company.Company;
+import com.example.jobapplication.company.CompanyRepository;
 import com.example.jobapplication.job.Job;
 import com.example.jobapplication.job.JobRepository;
 import com.example.jobapplication.job.JobService;
+import com.example.jobapplication.job.JobWithCompanyName;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,7 @@ import java.util.Optional;
 public class JobServiceImpl implements JobService {
 
     private JobRepository jobRepository;
-
+    private CompanyRepository companyRepository;
 
 
     @Override
@@ -26,7 +29,19 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void createJob(Job job) {
+    public void createJob(JobWithCompanyName jobWithCompanyName) {
+        Company company = companyRepository.findByName(jobWithCompanyName.getCompanyName());
+        if(company==null){
+            throw new RuntimeException("Company not found");
+        }
+        String companyId = company.getId();
+        Job job = Job.builder()
+                        .title(jobWithCompanyName.getTitle())
+                                .description(jobWithCompanyName.getDescription())
+                                        .maxSalary(jobWithCompanyName.getMaxSalary())
+                                                .minSalary(jobWithCompanyName.getMinSalary())
+                                                        .location(jobWithCompanyName.getLocation())
+                                                                .companyId(companyId).build();
         jobRepository.save(job);
     }
 

@@ -1,4 +1,4 @@
-package com.example.jobapplication.job;
+package com.example.jobapplication.company;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,20 +8,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "jobs")
+@Document(collection = "companies")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Job {
+public class Company {
 
     @Id
     private String id;
-    private String title;
+    private String name;
     private String description;
-    private String minSalary;
-    private String maxSalary;
-    private String location;
 
-    private String companyId;
 
 }
