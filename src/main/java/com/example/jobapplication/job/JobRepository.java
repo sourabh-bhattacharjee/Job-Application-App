@@ -9,4 +9,6 @@ public interface JobRepository extends MongoRepository<Job, String> {
     List<Job> findByCompanyId(String companyId);
 
     List<Job> findAllByCompanyId(String companyId);
+
+    void deleteAllByCompanyId(String companyId);
 }

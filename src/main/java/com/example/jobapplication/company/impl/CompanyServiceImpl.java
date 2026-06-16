@@ -5,6 +5,7 @@ import com.example.jobapplication.company.CompanyRepository;
 import com.example.jobapplication.company.CompanyService;
 import com.example.jobapplication.job.Job;
 import com.example.jobapplication.job.JobRepository;
+import com.example.jobapplication.reviews.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService {
     private CompanyRepository companyRepository;
     private JobRepository jobRepository;
+    private ReviewRepository reviewRepository;
 
     @Override
     public List<Company> getAllCompanies() {
@@ -46,7 +48,10 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void deleteCompany(String id) {
-        companyRepository.findById(id).ifPresent(company -> companyRepository.delete(company));
+        Company company = companyRepository.findById(id).orElseThrow(() -> new RuntimeException("Company not found"));
+        reviewRepository.deleteAllByCompanyId(id);
+        jobRepository.deleteAllByCompanyId(id);
+        companyRepository.delete(company);
     }
 
     @Override
