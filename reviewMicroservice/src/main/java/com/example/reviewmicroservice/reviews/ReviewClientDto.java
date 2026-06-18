@@ -3,6 +3,6 @@ package com.example.reviewmicroservice.reviews;
 import lombok.Data;
 
 @Data
-public class ReviewDto {
+public class ReviewClientDto {
     private String review;
 }

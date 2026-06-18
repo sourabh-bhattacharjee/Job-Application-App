@@ -2,10 +2,10 @@ package com.example.jobmicroservice.job.impl;
 
 import com.example.jobapplication.company.Company;
 import com.example.jobapplication.company.CompanyRepository;
-import com.example.jobapplication.job.Job;
-import com.example.jobapplication.job.JobRepository;
-import com.example.jobapplication.job.JobService;
-import com.example.jobapplication.job.JobWithCompanyName;
+import com.example.jobmicroservice.job.Job;
+import com.example.jobmicroservice.job.JobRepository;
+import com.example.jobmicroservice.job.JobWithCompanyName;
+import com.example.jobmicroservice.job.JobService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +61,11 @@ public class JobServiceImpl implements JobService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void deleteAllJobByCompany(String id) {
+        jobRepository.deleteAllByCompanyId(id);
     }
 
     @Override

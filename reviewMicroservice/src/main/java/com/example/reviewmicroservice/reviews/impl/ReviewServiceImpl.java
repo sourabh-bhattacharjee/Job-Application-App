@@ -1,11 +1,6 @@
 package com.example.reviewmicroservice.reviews.impl;
-
-import com.example.jobapplication.company.Company;
-import com.example.jobapplication.company.CompanyRepository;
-import com.example.jobapplication.reviews.Review;
-import com.example.jobapplication.reviews.ReviewDto;
-import com.example.jobapplication.reviews.ReviewRepository;
-import com.example.jobapplication.reviews.ReviewService;
+import com.example.reviewmicroservice.reviews.*;
+import com.example.reviewmicroservice.reviews.dto.CompanyDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -15,7 +10,7 @@ import java.util.List;
 public class ReviewServiceImpl implements ReviewService {
 
     private ReviewRepository reviewRepository;
-    private CompanyRepository companyRepository;
+    private CompanyClient companyClient;
 
     @Override
     public List<Review> getAllReviewsOfCompany(String id) {
@@ -23,8 +18,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review createReview(String id, ReviewDto reviewDto) {
-        Company company = companyRepository.findById(id).orElseThrow(() -> new RuntimeException("Company not found with id"+id));
+    public Review createReview(String id, ReviewClientDto reviewDto) {
+        CompanyDto company = companyClient.getCompanyById(id);
         Review review = Review.builder()
                 .companyId(company.getId())
                 .review(reviewDto.getReview())
@@ -38,7 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review updateReview(String id, String reviewId, ReviewDto reviewDto) {
+    public Review updateReview(String id, String reviewId, ReviewClientDto reviewDto) {
         Review review = reviewRepository.getByCompanyIdAndId(id,reviewId).orElseThrow(() -> new RuntimeException("Review not Found"));
         review.setReview(reviewDto.getReview());
         return reviewRepository.save(review);

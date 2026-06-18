@@ -5,11 +5,11 @@ import java.util.List;
 public interface ReviewService {
     List<Review> getAllReviewsOfCompany(String id);
 
-    Review createReview(String id, ReviewDto reviewDto);
+    Review createReview(String id, ReviewClientDto reviewDto);
 
     Review getReview(String id, String reviewId);
 
-    Review updateReview(String id, String reviewId, ReviewDto reviewDto);
+    Review updateReview(String id, String reviewId, ReviewClientDto reviewDto);
 
     Review deleteReview(String id, String reviewId);
 }

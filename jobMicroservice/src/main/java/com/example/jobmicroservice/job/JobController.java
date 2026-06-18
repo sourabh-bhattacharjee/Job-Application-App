@@ -51,4 +51,11 @@ public class JobController {
 
     }
 
+    @DeleteMapping("/{id}/deleteAll")
+    public void deleteAllJobByCompany(@PathVariable String id) {
+        jobService.deleteAllJobByCompany(id);
+    }
+
+
+
 }

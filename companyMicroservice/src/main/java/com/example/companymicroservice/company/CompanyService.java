@@ -1,6 +1,10 @@
 package com.example.companymicroservice.company;
 
+import com.example.companymicroservice.company.dto.JobDto;
 import com.example.jobapplication.job.Job;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
@@ -15,5 +19,5 @@ public interface CompanyService {
 
     void deleteCompany(String id);
 
-    List<Job> getAllJobsFromCompany(String id);
+    List<JobDto> getAllJobsFromCompany(String id);
 }

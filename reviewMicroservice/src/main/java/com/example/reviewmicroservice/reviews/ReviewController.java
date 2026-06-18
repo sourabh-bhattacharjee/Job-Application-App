@@ -12,6 +12,7 @@ import java.util.List;
 @RequestMapping("/companies/{id}/reviews")
 public class ReviewController {
 
+
     private ReviewService reviewService;
 
     //get all reviews for a company
@@ -22,7 +23,7 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<Review> createReview(@PathVariable String id, @RequestBody ReviewDto reviewDto){
+    public ResponseEntity<Review> createReview(@PathVariable String id, @RequestBody ReviewClientDto reviewDto){
         return new ResponseEntity<>(reviewService.createReview(id,reviewDto),HttpStatus.CREATED);
     }
 
@@ -34,7 +35,7 @@ public class ReviewController {
 
     // update the review
     @PutMapping("/{reviewId}")
-    public ResponseEntity<Review> updateReviewById(@PathVariable String id, @PathVariable String reviewId, @RequestBody ReviewDto reviewDto){
+    public ResponseEntity<Review> updateReviewById(@PathVariable String id, @PathVariable String reviewId, @RequestBody ReviewClientDto reviewDto){
         return new ResponseEntity<>(reviewService.updateReview(id,reviewId,reviewDto),HttpStatus.OK);
     }
 

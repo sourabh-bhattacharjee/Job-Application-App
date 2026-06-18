@@ -1,8 +1,11 @@
 package com.example.companymicroservice.company.impl;
 
-import com.example.jobapplication.company.Company;
-import com.example.jobapplication.company.CompanyRepository;
-import com.example.jobapplication.company.CompanyService;
+import com.example.companymicroservice.company.CompanyService;
+import com.example.companymicroservice.company.Company;
+import com.example.companymicroservice.company.CompanyRepository;
+import com.example.companymicroservice.company.client.JobClient;
+import com.example.companymicroservice.company.client.ReviewClient;
+import com.example.companymicroservice.company.dto.JobDto;
 import com.example.jobapplication.job.Job;
 import com.example.jobapplication.job.JobRepository;
 import com.example.jobapplication.reviews.ReviewRepository;
@@ -16,8 +19,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
     private CompanyRepository companyRepository;
-    private JobRepository jobRepository;
-    private ReviewRepository reviewRepository;
+    private JobClient jobClient;
+    private ReviewClient reviewClient;
 
     @Override
     public List<Company> getAllCompanies() {
@@ -49,14 +52,14 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void deleteCompany(String id) {
         Company company = companyRepository.findById(id).orElseThrow(() -> new RuntimeException("Company not found"));
-        reviewRepository.deleteAllByCompanyId(id);
-        jobRepository.deleteAllByCompanyId(id);
+        reviewClient.deleteAllByCompanyId(id);
+        jobClient.deleteAllByCompanyId(id);
         companyRepository.delete(company);
     }
 
     @Override
-    public List<Job> getAllJobsFromCompany(String id) {
-        List<Job> jobs =  jobRepository.findAllByCompanyId(id);
+    public List<JobDto> getAllJobsFromCompany(String id) {
+        List<JobDto> jobs =  jobClient.findAllByCompanyId(id);
         if(jobs.isEmpty()){
             throw new RuntimeException("Company not found with Id : "+ id);
         }
