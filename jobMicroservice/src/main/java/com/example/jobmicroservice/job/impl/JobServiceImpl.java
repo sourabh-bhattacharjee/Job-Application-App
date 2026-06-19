@@ -1,11 +1,7 @@
 package com.example.jobmicroservice.job.impl;
 
-import com.example.jobapplication.company.Company;
-import com.example.jobapplication.company.CompanyRepository;
-import com.example.jobmicroservice.job.Job;
-import com.example.jobmicroservice.job.JobRepository;
-import com.example.jobmicroservice.job.JobWithCompanyName;
-import com.example.jobmicroservice.job.JobService;
+import com.example.jobmicroservice.job.*;
+import com.example.jobmicroservice.job.dto.CompanyDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +13,7 @@ import java.util.Optional;
 public class JobServiceImpl implements JobService {
 
     private JobRepository jobRepository;
-    private CompanyRepository companyRepository;
+    private CompanyClient companyClient;
 
 
     @Override
@@ -27,7 +23,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void createJob(JobWithCompanyName jobWithCompanyName) {
-        Company company = companyRepository.findByName(jobWithCompanyName.getCompanyName());
+        CompanyDto company = companyClient.findByName(jobWithCompanyName.getCompanyName());
         if(company==null){
             throw new RuntimeException("Company not found");
         }
@@ -66,6 +62,11 @@ public class JobServiceImpl implements JobService {
     @Override
     public void deleteAllJobByCompany(String id) {
         jobRepository.deleteAllByCompanyId(id);
+    }
+
+    @Override
+    public List<Job> findAllByCompanyId(String id) {
+         return jobRepository.findAllByCompanyId(id);
     }
 
     @Override

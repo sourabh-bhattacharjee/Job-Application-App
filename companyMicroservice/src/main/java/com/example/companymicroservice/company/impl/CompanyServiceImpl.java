@@ -6,9 +6,6 @@ import com.example.companymicroservice.company.CompanyRepository;
 import com.example.companymicroservice.company.client.JobClient;
 import com.example.companymicroservice.company.client.ReviewClient;
 import com.example.companymicroservice.company.dto.JobDto;
-import com.example.jobapplication.job.Job;
-import com.example.jobapplication.job.JobRepository;
-import com.example.jobapplication.reviews.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,10 +56,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<JobDto> getAllJobsFromCompany(String id) {
-        List<JobDto> jobs =  jobClient.findAllByCompanyId(id);
-        if(jobs.isEmpty()){
-            throw new RuntimeException("Company not found with Id : "+ id);
-        }
-        return jobs;
+
+        return jobClient.findAllByCompanyId(id);
+    }
+
+    @Override
+    public Company getCompanyName(String name) {
+        return companyRepository.findByName(name);
     }
 }

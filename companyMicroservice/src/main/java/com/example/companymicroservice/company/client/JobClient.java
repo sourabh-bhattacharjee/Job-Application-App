@@ -22,7 +22,7 @@ public class JobClient {
 
     public List<JobDto> findAllByCompanyId(String id) {
 
-        return restClient.get().uri("/jobs/{id}/findAll")
+        return restClient.get().uri("/jobs/{id}/findAll",id)
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<JobDto>>() {});
     }
