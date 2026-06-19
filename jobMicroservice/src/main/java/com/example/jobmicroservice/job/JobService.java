@@ -13,4 +13,6 @@ public interface JobService {
     boolean updateJob(String id, Job updatedJob);
 
     void deleteAllJobByCompany(String id);
+
+    List<Job> findAllByCompanyId(String id);
 }

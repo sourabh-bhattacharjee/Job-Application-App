@@ -56,6 +56,11 @@ public class JobController {
         jobService.deleteAllJobByCompany(id);
     }
 
+    @GetMapping("/{id}/findAll")
+    public ResponseEntity<List<Job>> findAllByCompanyId(@PathVariable String id){
+        return new ResponseEntity<>(jobService.findAllByCompanyId(id),HttpStatus.OK);
+    }
+
 
 
 }

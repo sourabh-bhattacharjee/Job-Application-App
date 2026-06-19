@@ -1,7 +1,6 @@
 package com.example.companymicroservice.company;
 
 import com.example.companymicroservice.company.dto.JobDto;
-import com.example.jobapplication.job.Job;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +46,16 @@ public class CompanyController {
 
     @GetMapping("/{id}/jobs")
     public ResponseEntity<List<JobDto>> getAllJobsFromCompany(@PathVariable String id){
-        return new ResponseEntity<>(companyService.getAllJobsFromCompany(id), HttpStatus.OK);
+        List<JobDto> jobs = companyService.getAllJobsFromCompany(id);
+        if(jobs.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+    }
+
+    @GetMapping("/{name}/name")
+    public ResponseEntity<Company> getCompanyName(@PathVariable String name){
+        return new ResponseEntity<>(companyService.getCompanyName(name), HttpStatus.OK);
     }
 
 }
