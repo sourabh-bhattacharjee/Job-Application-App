@@ -1,6 +1,7 @@
 package com.example.jobmicroservice.job.impl;
 
 import com.example.jobmicroservice.job.*;
+import com.example.jobmicroservice.job.client.CompanyClient;
 import com.example.jobmicroservice.job.dto.CompanyDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
