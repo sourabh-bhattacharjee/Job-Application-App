@@ -12,4 +12,6 @@ public interface ReviewService {
     Review updateReview(String id, String reviewId, ReviewClientDto reviewDto);
 
     Review deleteReview(String id, String reviewId);
+
+    void deleteAllReviewsOfCompany(String id);
 }

@@ -1,5 +1,6 @@
 package com.example.reviewmicroservice.reviews;
 
+import com.example.reviewmicroservice.reviews.messaging.ReviewMessageProducer;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,10 +46,16 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.deleteReview(id,reviewId),HttpStatus.OK);
     }
 
+    @DeleteMapping("/deleteAll")
+    public void deleteAllReviewsOfCompany(@PathVariable String id){
+        reviewService.deleteAllReviewsOfCompany(id);
+    }
 
-
-
-
-
+    @GetMapping("/averageRating")
+    public Double getAverageRatingOfCompany(@PathVariable String id){
+        List<Review> reviews = reviewService.getAllReviewsOfCompany(id);
+        return reviews.stream().filter(review -> review.getRating() != null)
+                .mapToDouble(Review::getRating).average().orElse(0.0);
+    }
 
 }

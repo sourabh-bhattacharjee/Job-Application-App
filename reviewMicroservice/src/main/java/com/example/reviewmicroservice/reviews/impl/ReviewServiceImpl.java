@@ -1,6 +1,7 @@
 package com.example.reviewmicroservice.reviews.impl;
 import com.example.reviewmicroservice.reviews.*;
 import com.example.reviewmicroservice.reviews.dto.CompanyDto;
+import com.example.reviewmicroservice.reviews.messaging.ReviewMessageProducer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,6 +12,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private ReviewRepository reviewRepository;
     private CompanyClient companyClient;
+    private ReviewMessageProducer reviewMessageProducer;
 
     @Override
     public List<Review> getAllReviewsOfCompany(String id) {
@@ -22,9 +24,13 @@ public class ReviewServiceImpl implements ReviewService {
         CompanyDto company = companyClient.getCompanyById(id);
         Review review = Review.builder()
                 .companyId(company.getId())
-                .review(reviewDto.getReview())
+                .description(reviewDto.getDescription())
+                .rating(reviewDto.getRating())
+                .title(reviewDto.getTitle())
                 .build();
-        return reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
+        reviewMessageProducer.sendMessage(savedReview);
+        return savedReview;
     }
 
     @Override
@@ -35,7 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review updateReview(String id, String reviewId, ReviewClientDto reviewDto) {
         Review review = reviewRepository.getByCompanyIdAndId(id,reviewId).orElseThrow(() -> new RuntimeException("Review not Found"));
-        review.setReview(reviewDto.getReview());
+        review.setDescription(reviewDto.getDescription());
         return reviewRepository.save(review);
     }
 
@@ -44,6 +50,11 @@ public class ReviewServiceImpl implements ReviewService {
         Review review =  reviewRepository.getByCompanyIdAndId(id,reviewId).orElseThrow(() -> new RuntimeException("Review not Found"));
         reviewRepository.delete(review);
         return review;
+    }
+
+    @Override
+    public void deleteAllReviewsOfCompany(String id) {
+        reviewRepository.deleteAllByCompanyId(id);
     }
 
 }

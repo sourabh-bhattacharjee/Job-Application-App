@@ -1,6 +1,7 @@
 package com.example.companymicroservice.company;
 
 import com.example.companymicroservice.company.dto.JobDto;
+import com.example.companymicroservice.company.dto.ReviewMessageDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -21,4 +22,6 @@ public interface CompanyService {
     List<JobDto> getAllJobsFromCompany(String id);
 
     Company getCompanyName(String name);
+
+    void updateCompanyRating(ReviewMessageDto reviewMessageDto);
 }
