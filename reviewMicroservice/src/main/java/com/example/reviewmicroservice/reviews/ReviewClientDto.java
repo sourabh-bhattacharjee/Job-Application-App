@@ -4,5 +4,7 @@ import lombok.Data;
 
 @Data
 public class ReviewClientDto {
-    private String review;
+    private String description;
+    private Double rating;
+    private String title;
 }

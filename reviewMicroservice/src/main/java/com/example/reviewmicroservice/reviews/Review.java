@@ -18,8 +18,9 @@ public class Review {
     @Id
     private String id;
 
-    private String review;
-
+    private String title;
+    private String description;
+    private Double rating;
     @NonNull
     private String companyId;
 }

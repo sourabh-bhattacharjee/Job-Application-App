@@ -6,6 +6,7 @@ import com.example.companymicroservice.company.CompanyRepository;
 import com.example.companymicroservice.company.client.JobClient;
 import com.example.companymicroservice.company.client.ReviewClient;
 import com.example.companymicroservice.company.dto.JobDto;
+import com.example.companymicroservice.company.dto.ReviewMessageDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -63,5 +64,16 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company getCompanyName(String name) {
         return companyRepository.findByName(name);
+    }
+
+    @Override
+    public void updateCompanyRating(ReviewMessageDto reviewMessageDto) {
+        Double rating = reviewClient.getAverageRatingOfReviews(reviewMessageDto.getCompanyId());
+
+        System.out.println(rating);
+        Company company = companyRepository.findById(reviewMessageDto.getCompanyId()).orElseThrow(() -> new RuntimeException("Company not found"));
+        company.setRating(rating);
+        companyRepository.save(company);
+
     }
 }
