@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/companies/{id}/reviews")
+@RequestMapping("/company/{id}/reviews")
 public class ReviewController {
 
 

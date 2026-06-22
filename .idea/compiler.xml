@@ -15,11 +15,20 @@
         <module name="service-registry" />
         <module name="companyMicroservice" />
       </profile>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="api-gateway" />
+        <module name="config-server" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway" options="-parameters" />
       <module name="companyMicroservice" options="-parameters" />
+      <module name="config-server" options="-parameters" />
       <module name="jobMicroservice" options="-parameters" />
       <module name="reviewMicroservice" options="-parameters" />
       <module name="service-registry" options="-parameters" />
