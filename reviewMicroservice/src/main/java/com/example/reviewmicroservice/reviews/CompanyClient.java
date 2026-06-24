@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestClient;
 
-@FeignClient(name = "COMPANYMICROSERVICE")
+@FeignClient(name = "COMPANYMICROSERVICE" ,
+        url= "${COMPANYMICROSERVICE.url}")
 public interface CompanyClient {
     @GetMapping("/companies/{id}")
     CompanyDto getCompanyById(@PathVariable String id);

@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  service-registry:
+    image: service-registry
+    container_name: servicereg
+    ports:
+      - "8761:8761"
+
+  config-server:
+    image: config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - service-registry
+
+  company:
+    image: company
+    container_name: company
+    ports:
+      - "8081:8081"
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CONFIG_IMPORT: configserver:http://config-server:8888
+    depends_on:
+      - service-registry
+      - config-server
+      - rabbitmq
+
+  job:
+    image: job
+    container_name: job
+    ports:
+      - "8082:8082"
+    depends_on:
+      - company
+      - service-registry
+      - rabbitmq
+
+  review:
+    image: review
+    container_name: review
+    ports:
+      - "8083:8083"
+    depends_on:
+      - company
+      - service-registry
+      - rabbitmq
+
+  api-gateway:
+    image: api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - company
+      - job
+      - review
+      - service-registry
+      - rabbitmq
