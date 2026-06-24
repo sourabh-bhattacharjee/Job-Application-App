@@ -14,7 +14,8 @@ import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
-@FeignClient(name = "JOBMICROSERVICE")
+@FeignClient(name = "JOBMICROSERVICE",
+            url= "${JOBMICROSERVICE.url}")
 public interface JobClient {
 
     @DeleteMapping("/jobs/{id}/deleteAll")
